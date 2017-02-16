@@ -109,7 +109,7 @@ describe('ДЗ 4 - Работа с DOM', () => {
         });
     });
 
-    /*describe('collectDOMStat', () => {
+    describe('collectDOMStat', () => {
         it('должна вернуть статистику по переданному дереву', () => {
             let where = document.createElement('div');
             let stat = {
@@ -123,7 +123,7 @@ describe('ДЗ 4 - Работа с DOM', () => {
             result = collectDOMStat(where);
             assert.deepEqual(result, stat);
         });
-    });*/
+    });
 
    /* describe('observeChildNodes', () => {
         it('должна вызывать fn при добавлении элементов в указанный элемент', done => {
