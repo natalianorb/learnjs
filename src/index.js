@@ -71,11 +71,13 @@ function once(target, fn) {
     let counter = 0;
 
     target.addEventListener('click', ()=>{
-        if (counter < 1) {
-            fn();
-        }
         counter++;
+        if (counter > 1) {
+            target.removeEventListener('click', fn);
+        }
     });
+
+    target.addEventListener('click', fn);
 }
 
 export {
