@@ -68,16 +68,11 @@ function delegate(target, fn) {
  * @param {function} fn - обработчик
  */
 function once(target, fn) {
-    let counter = 0;
-
-    target.addEventListener('click', ()=>{
-        counter++;
-        if (counter > 1) {
-            target.removeEventListener('click', fn);
-        }
-    });
-
-    target.addEventListener('click', fn);
+    function remover(event) {
+        fn(event);
+        target.removeEventListener('click', remover);
+    }
+    target.addEventListener('click', remover);
 }
 
 export {
