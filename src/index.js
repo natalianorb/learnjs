@@ -22,7 +22,7 @@ function delayPromise(seconds) {
 function loadAndSortTowns() {
     let url = 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json';
 
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
         let xhr = new XMLHttpRequest();
         let res;
 
@@ -47,6 +47,9 @@ function loadAndSortTowns() {
             sortCities();
             resolve(res);
         });
+        xhr.error = function (e) {
+            reject(e);
+        }
     });
 }
 

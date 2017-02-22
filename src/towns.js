@@ -28,6 +28,7 @@
  * homeworkContainer.appendChild(...);
  */
 let homeworkContainer = document.querySelector('#homework-container');
+let cities;
 
 /**
  * Функция должна загружать список городов из https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
@@ -38,6 +39,11 @@ let homeworkContainer = document.querySelector('#homework-container');
 function loadTowns() {
     return require('./index').loadAndSortTowns();
 }
+
+loadTowns().then(function (sortedResponse) {
+    cities = sortedResponse;
+    loadingBlock.textContent = '';
+});
 
 /**
  * Функция должна проверять встречается ли подстрока chunk в строке full
@@ -60,7 +66,7 @@ function isMatching(full, chunk) {
 }
 
 let loadingBlock = homeworkContainer.querySelector('#loading-block');
-let filterBlock = homeworkContainer.querySelector('#filter-block');
+// let filterBlock = homeworkContainer.querySelector('#filter-block');
 let filterInput = homeworkContainer.querySelector('#filter-input');
 let filterResult = homeworkContainer.querySelector('#filter-result');
 
@@ -68,27 +74,18 @@ filterInput.addEventListener('keyup', function() {
     let value = this.value.trim();
 
     filterResult.innerHTML = '';
-    if (value != '') {
-        loadTowns().then(
-            function (cities) {
-                for (let city of cities) {
-                    if (isMatching(city.name, value)) {
-                        let cityTag = document.createElement('div');
 
-                        cityTag.textContent = city.name;
-                        filterResult.appendChild(cityTag);
-                    }
-                }
+    if (value != '') {
+        for (let city of cities) {
+            if (isMatching(city.name, value)) {
+                let cityTag = document.createElement('div');
+
+                cityTag.textContent = city.name;
+                filterResult.appendChild(cityTag);
             }
-        );
+        }
     }
 });
-
-(function () {
-    loadTowns().then(function () {
-        loadingBlock.innerText = '';
-    })
-})();
 
 export {
     loadTowns,
