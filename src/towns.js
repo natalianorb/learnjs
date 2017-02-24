@@ -40,10 +40,23 @@ function loadTowns() {
     return require('./index').loadAndSortTowns();
 }
 
-loadTowns().then(function (sortedResponse) {
-    cities = sortedResponse;
-    loadingBlock.textContent = '';
-});
+loadTowns().then(
+    function (sortedResponse) {
+        cities = sortedResponse;
+        loadingBlock.textContent = '';
+    },
+    function() {
+        let notification = document.createElement('div');
+        let retryButton = document.createElement('button');
+
+        notification.textContent = 'Не удалось загрузить города';
+        retryButton.textContent = 'Повторить';
+        retryButton.addEventListener('click', function () {
+            loadTowns();
+        });
+        notification.appendChild(retryButton);
+        homeworkContainer.appendChild(notification);
+    });
 
 /**
  * Функция должна проверять встречается ли подстрока chunk в строке full

@@ -47,8 +47,8 @@ function loadAndSortTowns() {
             sortCities();
             resolve(res);
         });
-        xhr.error = function (e) {
-            reject(e);
+        xhr.error = function () {
+            reject();
         }
     });
 }
