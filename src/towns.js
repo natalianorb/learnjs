@@ -28,7 +28,6 @@
  * homeworkContainer.appendChild(...);
  */
 let homeworkContainer = document.querySelector('#homework-container');
-let cities;
 
 /**
  * Функция должна загружать список городов из https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
@@ -42,8 +41,9 @@ function loadTowns() {
 
 loadTowns().then(
     function (sortedResponse) {
-        cities = sortedResponse;
         loadingBlock.textContent = '';
+
+        return sortedResponse;
     },
     function() {
         let notification = document.createElement('div');
@@ -51,11 +51,10 @@ loadTowns().then(
 
         notification.textContent = 'Не удалось загрузить города';
         retryButton.textContent = 'Повторить';
-        retryButton.addEventListener('click', function () {
-            loadTowns();
-        });
-        notification.appendChild(retryButton);
+        retryButton.addEventListener('click', loadTowns);
+
         homeworkContainer.appendChild(notification);
+        homeworkContainer.appendChild(retryButton);
     });
 
 /**
@@ -84,20 +83,22 @@ let filterInput = homeworkContainer.querySelector('#filter-input');
 let filterResult = homeworkContainer.querySelector('#filter-result');
 
 filterInput.addEventListener('keyup', function() {
-    let value = this.value.trim();
+    loadTowns().then(function (cities) {
+        let value = filterInput.value.trim();
 
-    filterResult.innerHTML = '';
+        filterResult.innerHTML = '';
 
-    if (value != '') {
-        for (let city of cities) {
-            if (isMatching(city.name, value)) {
-                let cityTag = document.createElement('div');
+        if (value != '') {
+            for (let city of cities) {
+                if (isMatching(city.name, value)) {
+                    let cityTag = document.createElement('div');
 
-                cityTag.textContent = city.name;
-                filterResult.appendChild(cityTag);
+                    cityTag.textContent = city.name;
+                    filterResult.appendChild(cityTag);
+                }
             }
         }
-    }
+    });
 });
 
 export {

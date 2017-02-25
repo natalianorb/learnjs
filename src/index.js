@@ -43,13 +43,18 @@ function loadAndSortTowns() {
         xhr.open('GET', url);
         xhr.responseType = 'json';
         xhr.send();
-        xhr.addEventListener('load', function () {
-            sortCities();
-            resolve(res);
-        });
-        xhr.error = function () {
-            reject();
-        }
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState != 4) {
+                return;
+            }
+
+            if (xhr.status != 200) {
+                reject();
+            } else {
+                sortCities();
+                resolve(res);
+            }
+        };
     });
 }
 
