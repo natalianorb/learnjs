@@ -40,6 +40,7 @@ let addButton = homeworkContainer.querySelector('#add-button');
 let listTable = homeworkContainer.querySelector('#list-table tbody');
 const createCookie = require('./index').createCookie;
 const deleteCookie = require('./index').deleteCookie;
+
 function getCookies() {
     return document.cookie
         .split('; ')
@@ -80,24 +81,24 @@ function isMatching(full, chunk) {
  */
 function createCookieTr(name, value) {
     let tr = document.createElement('tr');
-    let nameTd = document.createElement('td');
+    let tdName = document.createElement('td');
     let tdValue = document.createElement('td');
     let tdButton = document.createElement('td');
-    let removeButton  = document.createElement('button');
+    let removeButton = document.createElement('button');
 
-
-    nameTd.textContent = name;
+    tdName.textContent = name;
     tdValue.textContent = value;
     removeButton.textContent = 'Удалить';
     removeButton.addEventListener('click', function (event) {
         let tr = event.target.closest('tr');
-        let nameTd = tr.firstElementChild;
+        let tdName = tr.firstElementChild;
 
-        deleteCookieTr(nameTd);
+        deleteCookieTr(tdName);
+        deleteCookie(tdName.innerText);
     });
     tdButton.appendChild(removeButton);
 
-    tr.appendChild(nameTd);
+    tr.appendChild(tdName);
     tr.appendChild(tdValue);
     tr.appendChild(tdButton);
 
@@ -105,23 +106,22 @@ function createCookieTr(name, value) {
 }
 
 function updateCookieTr(name, value) {
-    let nameTd = findNametd(name);
+    let tdName = findTdName(name);
 
-    if (nameTd) {
-        nameTd.nextElementSibling.textContent = value;
+    if (tdName) {
+        tdName.nextElementSibling.textContent = value;
     } else {
         createCookieTr(name, value);
     }
 }
 
-function deleteCookieTr(nameTd) {
-    let tr = nameTd.closest('tr');
+function deleteCookieTr(tdName) {
+    let tr = tdName.closest('tr');
 
-    deleteCookie(nameTd.innerText);
     listTable.removeChild(tr);
 }
 
-function findNametd(name) {
+function findTdName(name) {
     for (let tr of listTable.children) {
         if (tr.firstElementChild.innerText == name) {
             return tr.firstElementChild;
@@ -165,5 +165,3 @@ addButton.addEventListener('click', () => {
     filter();
 
 });
-
-

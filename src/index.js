@@ -38,6 +38,7 @@ function createCookie(name, value) {
  */
 function deleteCookie(name) {
     let exp = new Date(0);
+    
     document.cookie=''+ name+'=;expires='+exp;
 }
 
