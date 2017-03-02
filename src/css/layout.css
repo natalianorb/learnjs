@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+#friends {
+}
+
+#selectedFriends .friend__add {
+    transform: rotate(45deg);
+}
