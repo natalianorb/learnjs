@@ -1,17 +1,25 @@
 .filter {
+    display: flex;
+    flex-direction: column;
     font-family: "Fira Sans", sans-serif;
 }
 
 .filter__logo {
     width: 105px;
-    margin: 0 auto;
+    margin: 20px auto ;
+}
+
+.filter__new {
+    width: 150px;
+    margin: 20px auto;
 }
 
 .filter__popup {
+    display: none;
     position: fixed;
     top: 0; left: 0; bottom: 0; right: 0;
-    z-index: 10;
-    display: flex;
+    z-index: 10;/*
+    display: flex;*/
     align-items: center;
     justify-content: center;
     background-color: #999999;
@@ -55,7 +63,7 @@
 .filter__block {
     width: 50%;
     box-sizing: border-box;
-    padding: 15px;
+    padding: 15px 15px 0;
 }
 
 .filter__search {
@@ -100,7 +108,7 @@
     background-color: #f1f1f1;
     text-align: right;
 }
-
+.filter__new,
 .filter__save {
     padding: 10px 20px;
     color: #fff;

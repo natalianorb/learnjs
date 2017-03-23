@@ -55,15 +55,24 @@ function moveBack(event) {
     }
 }
 
+var loadFriends = document.querySelector('#loadFriends');
 var filterFrom = document.querySelector('#friends');
 var selectedFriends = document.querySelector('#selectedFriends');
+var popup = document.querySelector('.filter__popup');
 var list = {};
 
 filterFrom.addEventListener('click', addFriend );
 selectedFriends.addEventListener('click', moveBack);
 
-login()
-    .then(() => callAPI('friends.get', { v: 5.62, fields: ['photo_100'] }))
-    .then(result => filterFrom.innerHTML = createFriendsDiv(result.items))
-    .catch( (e) => console.error(e) );
+
+loadFriends.addEventListener('click', () => {
+    login()
+        .then(() => callAPI('friends.get', {v: 5.62, fields: ['photo_100']}))
+        .then(result => filterFrom.innerHTML = createFriendsDiv(result.items))
+        .then(() => {
+            popup.style = "display: flex;";
+            popup.querySelector('.filter__close').addEventListener('click', () => popup.style = "display: none;")
+        })
+        .catch((e) => console.error(e));
+});
 
